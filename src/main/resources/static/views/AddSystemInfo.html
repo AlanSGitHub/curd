@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系统信息</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="lib/element-ui/element-ui.css">
+    <style>
+        body {
+            margin: 0px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app" v-loading="loading" element-loading-text="代码执行逻辑中..." style="width: 70%;margin: 0 auto;">
+    <header>
+        <div style="margin-top: 15px;">
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item><a href="/">首页</a></el-breadcrumb-item>
+                <el-breadcrumb-item>系统信息</el-breadcrumb-item>
+            </el-breadcrumb>
+        </div>
+        <h1 style="text-align: -webkit-center;">
+            系统信息
+        </h1>
+    </header>
+    <el-form :inline="false" :disabled="false" :model="sizeForm" ref="sizeForm" label-width="180px" size="small">
+        <el-form-item label="应用名称">
+            <el-input type="textarea" v-model="sizeForm.applicationName"></el-input>
+        </el-form-item>
+        <el-form-item label="描述">
+            <el-input type="textarea" v-model="sizeForm.description"></el-input>
+        </el-form-item>
+        <el-form-item label="应用类型">
+            <el-select v-model="sizeForm.applicationType" placeholder="请选择应用类型">
+                <el-option label="工具软件" value="工具软件"></el-option>
+                <el-option label="数据库" value="数据库"></el-option>
+                <el-option label="业务系统" value="业务系统"></el-option>
+                <el-option label="其他" value="其他"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="使用状态">
+            <el-select v-model="sizeForm.userMode" placeholder="请选择使用状态">
+                <el-option label="在用" value="在用"></el-option>
+                <el-option label="偶尔使用" value="偶尔使用"></el-option>
+                <el-option label="停用" value="停用"></el-option>
+                <el-option label="未启用" value="未启用"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="部署环境">
+            <el-select v-model="sizeForm.deploymentEnvironment" placeholder="请选择部署环境">
+                <el-option label="生产" value="生产"></el-option>
+                <el-option label="测试" value="测试"></el-option>
+                <el-option label="开发" value="开发"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="所在网络">
+            <el-select v-model="sizeForm.network" placeholder="请选择所在网络">
+                <el-option label="云外网" value="云外网"></el-option>
+                <el-option label="云专网" value="云专网"></el-option>
+                <el-option label="安全岛" value="安全岛"></el-option>
+                <el-option label="机关外网" value="机关外网"></el-option>
+                <el-option label="机关专网" value="机关专网"></el-option>
+                <el-option label="模拟安全岛" value="模拟安全岛"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="业务域">
+            <el-select v-model="sizeForm.businessDomain" placeholder="请选择业务域">
+                <el-option label="平台" value="平台"></el-option>
+                <el-option label="工作" value="工作"></el-option>
+                <el-option label="代表" value="代表"></el-option>
+                <el-option label="会议" value="会议"></el-option>
+                <el-option label="监督" value="监督"></el-option>
+                <el-option label="立法" value="立法"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="局域网ip">
+            <el-input v-model="sizeForm.lanIp"></el-input>
+        </el-form-item>
+        <el-form-item label="局域网域名">
+            <el-input v-model="sizeForm.lanDomain"></el-input>
+        </el-form-item>
+        <el-form-item label="公网ip">
+            <el-input v-model="sizeForm.internetIp"></el-input>
+        </el-form-item>
+        <el-form-item label="公网域名">
+            <el-input v-model="sizeForm.internetDomain"></el-input>
+        </el-form-item>
+        <el-form-item label="承建单位">
+            <el-input v-model="sizeForm.unitConstruction"></el-input>
+        </el-form-item>
+        <el-form-item label="维护单位">
+            <el-input v-model="sizeForm.maintenanceOfTheUnit"></el-input>
+        </el-form-item>
+        <el-form-item label="验收时间">
+            <el-input v-model="sizeForm.receptionTime"></el-input>
+        </el-form-item>
+        <el-form-item label="维护人员">
+            <el-input v-model="sizeForm.maintainer"></el-input>
+        </el-form-item>
+        <el-form-item label="维护人员联系方式">
+            <el-input v-model="sizeForm.maintainerContact"></el-input>
+        </el-form-item>
+        <el-form-item label="系统结构">
+            <el-select v-model="sizeForm.systemOrganization" placeholder="请选择系统结构">
+                <el-option label="BS" value="BS"></el-option>
+                <el-option label="CS" value="CS"></el-option>
+                <el-option label="APP" value="APP"></el-option>
+                <el-option label="其他" value="其他"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="开发语言">
+            <el-input v-model="sizeForm.developmentLanguage"></el-input>
+        </el-form-item>
+        <el-form-item label="框架插件">
+            <el-input type="textarea" v-model="sizeForm.frameworkPlugins"></el-input>
+        </el-form-item>
+        <el-form-item label="是否移交源代码">
+            <el-select v-model="sizeForm.whetherToHandOverSourceCode" placeholder="请选择是否移交源代码">
+                <el-option label="是" value="是"></el-option>
+                <el-option label="否" value="否"></el-option>
+                <el-option label="部分" value="部分"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="中间件">
+            <el-input v-model="sizeForm.middleware"></el-input>
+        </el-form-item>
+        <el-form-item label="是否接入统一平台">
+            <el-input v-model="sizeForm.whetherToAccessTheUnifiedPlatform"></el-input>
+        </el-form-item>
+        <el-form-item label="是否应用统一权限">
+            <el-input v-model="sizeForm.whetherUniformPermissionsApply"></el-input>
+        </el-form-item>
+        <el-form-item label="端口号">
+            <el-input v-model="sizeForm.port"></el-input>
+        </el-form-item>
+        <el-form-item label="端口描述">
+            <el-input type="textarea" v-model="sizeForm.portDescription"></el-input>
+        </el-form-item>
+        <el-form-item label="应用程序路径">
+            <el-input type="textarea" v-model="sizeForm.applicationPath"></el-input>
+        </el-form-item>
+        <el-form-item label="管理界面或后台地址">
+            <el-input type="textarea" v-model="sizeForm.manageInterfaceOrBackgroundAddress"></el-input>
+        </el-form-item>
+        <el-form-item label="管理员账号">
+            <el-input type="textarea" v-model="sizeForm.administratorAccount"></el-input>
+        </el-form-item>
+        <el-form-item label="管理员密码">
+            <el-input type="textarea" v-model="sizeForm.administratorPassword"></el-input>
+        </el-form-item>
+        <el-form-item label="远程数据库">
+            <el-input type="textarea" v-model="sizeForm.remoteDatabase"></el-input>
+        </el-form-item>
+        <el-form-item label="本地数据库类型">
+            <el-input v-model="sizeForm.localDatabaseType"></el-input>
+        </el-form-item>
+        <el-form-item label="数据库路径">
+            <el-input v-model="sizeForm.databasePath"></el-input>
+        </el-form-item>
+        <el-form-item label="数据库账号密码">
+            <el-input type="textarea" v-model="sizeForm.databaseAccountAndPassword"></el-input>
+        </el-form-item>
+        <el-form-item label="附件路径">
+            <el-input type="textarea" v-model="sizeForm.attachmentPath"></el-input>
+        </el-form-item>
+        <el-form-item label="是否注册系统自启动服务">
+            <el-input v-model="sizeForm.whetherToRegisterTheSystemToStartTheService"></el-input>
+        </el-form-item>
+        <el-form-item label="服务器重启后操作步骤">
+            <el-input type="textarea" v-model="sizeForm.operationStepsAfterServerRestart"></el-input>
+        </el-form-item>
+        <el-form-item label="其他软件">
+            <el-input type="textarea" v-model="sizeForm.otherSoftware"></el-input>
+        </el-form-item>
+        <el-form-item label="维护模式">
+            <el-input type="textarea" v-model="sizeForm.maintenanceMode"></el-input>
+        </el-form-item>
+        <el-form-item size="large">
+            <el-button type="primary" @click="onSubmit">立即创建</el-button>
+            <el-button @click="resetForm('sizeForm')">重置</el-button>
+            <el-button @click="cancel">取消</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+
+</body>
+<script src="lib/jQuery/jquery-3.3.1.min.js"></script>
+<script src="lib/vue/vue.js"></script>
+<script src="lib/element-ui/element-ui.js"></script>
+<script>
+    $(document).ready(function () {
+        new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                    sizeForm: {
+                    },
+                    loading : false
+                }
+            },
+            // created: function () {
+            //     var self = this;
+            //     $.ajax({
+            //         type: "GET",
+            //         url: "/api/sys/all",
+            //         dataType: 'json',
+            //         success: function (result) {
+            //             console.info('请求了后台');
+            //             console.info(result);
+            //             self.tableData = result;
+            //         }
+            //     });
+            // },
+            methods: {
+                onSubmit() {
+                    var self = this;
+                    self.loading = true;
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json;charset=UTF-8",
+                        url: "/api/sys/save",
+                        data: JSON.stringify(self.sizeForm),
+                        dataType: 'json',
+                        success: function (result) {
+                            self.$notify({
+                                title: '成功',
+                                message: '操作成功。',
+                                type: 'success'
+                            });
+                            $(location).attr('href', '/');
+                        },
+                        error: function (data) {
+                            self.$notify.error({
+                                title: '错误！',
+                                message: '保存失败，请检查表单数据',
+                                duration: 0
+                            });
+                            self.loading = false;
+                        }
+                    });
+                },
+                cancel(){
+                    // this.$message({
+                    //     showClose: true,
+                    //     message: '错了哦，这是一条错误消息',
+                    //     type: 'error'
+                    // });
+                    // this.loading = true;
+                    $(location).attr('href', '/');
+                },
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                }
+            }
+        })
+    });
+</script>
+</html>

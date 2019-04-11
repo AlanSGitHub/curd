@@ -1,0 +1,28 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: SystemInfo
+  #数据库驱动
+  datasource:
+    url: jdbc:mysql://localhost:3306/world?serverTimezone=UTC
+    password: root
+    username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    #指定数据库类型
+    database: mysql
+    #控制台打印sql
+    show-sql: true
+    hibernate:
+      #建表策略，这里用update，即根据实体更新表结构
+      ddl-auto: update
+      #表中字段命名策略,这里要引入hibernate的核心包，不然这个命名策略会报错
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    #方言
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect

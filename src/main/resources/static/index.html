@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系统信息列表</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="lib/element-ui/element-ui.css">
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        h2 {
+            margin-left: 20px;
+            text-align: -webkit-center;
+            float: left;
+        }
+
+        .pageHelper {
+            margin-top: 10px;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h2>系统信息查询</h2>
+    <div style="float: right;margin: 10px;">
+        <el-button @click="add" type="primary" icon="el-icon-edit">新增</el-button>
+    </div>
+    <template>
+        <el-table
+                :data="tableData"
+                border
+                height="800"
+                style="width: 100%;">
+            <el-table-column
+                    label="序号"
+                    type="index"
+                    width="50">
+            </el-table-column>
+            <el-table-column
+                    prop="id"
+                    label="主键"
+                    width="150" v-if="show">
+            </el-table-column>
+            <el-table-column
+                    prop="applicationName"
+                    label="应用名称"
+                    width="150">
+            </el-table-column>
+            <el-table-column
+                    prop="description"
+                    label="描述"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="applicationType"
+                    label="应用类型"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="userMode"
+                    label="使用状态"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="deploymentEnvironment"
+                    label="部署环境"
+                    width="300">
+            </el-table-column>
+            <el-table-column
+                    prop="network"
+                    label="所在网络"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="businessDomain"
+                    label="业务域"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="lanIp"
+                    label="局域网ip"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="lanDomain"
+                    label="局域网域名"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="internetIp"
+                    label="公网ip"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="internetDomain"
+                    label="公网域名"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="unitConstruction"
+                    label="承建单位"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="maintenanceOfTheUnit"
+                    label="维护单位"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="receptionTime"
+                    label="验收时间"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="maintainer"
+                    label="维护人员"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="maintainerContact"
+                    label="维护人员联系方式"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="systemOrganization"
+                    label="系统结构"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="developmentLanguage"
+                    label="开发语言"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    fixed="right"
+                    label="操作"
+                    width="220">
+                <template slot-scope="scope">
+                    <el-button
+                            size="mini"
+                            @click="handleShow(scope.$index, scope.row)">查看
+                    </el-button>
+                    <el-button
+                            size="mini"
+                            @click="handleEdit(scope.$index, scope.row)">编辑
+                    </el-button>
+                    <el-button
+                            size="mini"
+                            type="danger"
+                            @click="handleDelete(scope.$index, tableData,scope.row)">删除
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </template>
+    <div class="block pageHelper">
+        <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="page"
+                :page-sizes="sizes"
+                :page-size="size"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total">
+        </el-pagination>
+    </div>
+</div>
+
+</body>
+<script src="lib/jQuery/jquery-3.3.1.min.js"></script>
+<script src="lib/vue/vue.js"></script>
+<script src="lib/element-ui/element-ui.js"></script>
+<script>
+    $(document).ready(function () {
+        new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                    tableData: [],
+                    show: false,
+                    sizes: [20, 50, 100, 200, 400, 600, 800, 1000],
+                    total: 300,
+                    size: 20,
+                    page: 1
+                }
+            },
+            created: function () {
+                this.getPage();
+            },
+            methods: {
+                getPage() {
+                    var self = this;
+                    $.ajax({
+                        type: "GET",
+                        url: "/api/sys/page",
+                        data: {
+                            pageNumber: self.page,
+                            sizeNumber: self.size
+                        },
+                        dataType: 'json',
+                        success: function (result) {
+                            self.total = result.totalElements;
+                            self.tableData = result.content;
+                        }
+                    });
+                },
+                add() {
+                    $(location).attr('href', '/addSys');
+                },
+                handleSizeChange(val) {
+                    console.log('每页' + val + '条');
+                    var self = this;
+                    self.size = val;
+                    this.getPage();
+                },
+                handleCurrentChange(val) {
+                    console.log('当前页:' + val);
+                    var self = this;
+                    self.page = val;
+                    this.getPage();
+                },
+                handleShow(index, row) {
+                    $(location).attr('href', '/viewSys?id=' + row.id);
+                },
+                handleEdit(index, row) {
+                    $(location).attr('href', '/editSys?id=' + row.id);
+                },
+                handleDelete(index, rows, row) {
+                    var self = this;
+                    self.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(function (value) {
+                        $.ajax({
+                            type: "GET",
+                            url: "/api/sys/del",
+                            // contentType: "application/json;charset=UTF-8",
+                            data: {
+                                id: row.id
+                            },
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result) {
+                                    rows.splice(index, 1);
+                                    self.$message({
+                                        type: 'success',
+                                        message: '删除成功!'
+                                    });
+                                } else {
+                                    self.$message({
+                                        type: 'error',
+                                        message: '删除失败!'
+                                    });
+                                }
+                            }
+                        });
+                    }).catch(function (reason) {
+                        self.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    });
+                }
+            }
+        })
+    });
+</script>
+</html>
