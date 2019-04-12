@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
+ * 系统信息数据操作类
  * @author Max
  * @date 2019-04-10 下午 9:08
  * @projectName curd

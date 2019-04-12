@@ -4,6 +4,10 @@ server:
 spring:
   application:
     name: SystemInfo
+#  mvc:
+#    view:
+#      prefix: classpath:/static/views/
+#      suffix: .html
   #数据库驱动
   datasource:
     url: jdbc:mysql://localhost:3306/world?serverTimezone=UTC

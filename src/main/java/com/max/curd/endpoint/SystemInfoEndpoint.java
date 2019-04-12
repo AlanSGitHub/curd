@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
+ * 系统信息数据Api
  * @author Max
  * @date 2019-04-10 下午 9:48
  * @projectName curd
@@ -22,7 +23,7 @@ public class SystemInfoEndpoint {
 
     @PostMapping("/save")
     public SystemInfo save(@RequestBody SystemInfo systemInfo) {
-        return systemInfoService.add(systemInfo);
+        return systemInfoService.save(systemInfo);
     }
 
     @GetMapping("/all")

@@ -9,11 +9,12 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 /**
+ * 系统信息实体类
+ * JsonIgnoreProperties注解作用是将本对象转json的时候有空字符串时忽略报错
  * @author Max.
  * @date 2019-4-10
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "tb_system_info")
@@ -27,12 +28,6 @@ public class SystemInfo{
     @GenericGenerator(name="system-uuid",strategy = "uuid")
     @Column(name="id",length=32)
     private String id;
-    /**
-     * 序号
-     */
-//    @Column
-//    private String sequenceNumber;
-
     /**
      * 应用名称
      */

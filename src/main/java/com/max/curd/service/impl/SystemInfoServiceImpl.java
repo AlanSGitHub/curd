@@ -39,12 +39,7 @@ public class SystemInfoServiceImpl implements SystemInfoService {
     }
 
     @Override
-    public SystemInfo add(SystemInfo systemInfo) {
-        return systemInfoDao.save(systemInfo);
-    }
-
-    @Override
-    public SystemInfo edit(SystemInfo systemInfo) {
+    public SystemInfo save(SystemInfo systemInfo) {
         return systemInfoDao.save(systemInfo);
     }
 
